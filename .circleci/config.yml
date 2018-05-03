@@ -22,28 +22,15 @@ jobs:
       - run:
           name: Build
           command: yarn build
-      - persist_to_workspace:
-                root: ~/repo
-                paths:
-                  - dist
   deploy:
     docker:
       - image: circleci/node:8.9
     working_directory: ~/repo
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/repo/dist
       - run:
           name: Deploy to Heroku
-          command: |
-            cd dist &&
-            git init &&
-            git add . &&
-            git commit -m $CIRCLE_SHA1 &&
-            git config user.email "enzo@enzo-volkmann.de" &&
-            git config user.name "Enzo Volkmann via CircleCI" &&
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 
 workflows:
   version: 2
