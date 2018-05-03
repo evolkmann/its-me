@@ -35,16 +35,14 @@ jobs:
       - attach_workspace:
           at: ~/repo/dist
       - run:
-          name: Prepare Git
-          command: |
-            cd dist &&
-            git init
-      - run:
           name: Deploy to Heroku
           command: |
             cd dist &&
+            git init &&
             git add . &&
             git commit -m $CIRCLE_SHA1 &&
+            git config user.email "enzo@enzo-volkmann.de" &&
+            git config user.name "Enzo Volkmann via CircleCI" &&
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 
 workflows:
