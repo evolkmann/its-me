@@ -10,7 +10,7 @@ export const configuration: Configuration = {
         name: 'Enzo Volkmann',
         email: 'enzo@enzo-volkmann.de',
         smtpTransportOptions: {
-            host: 'smtp.1und1.de',
+            host: 'mx2f1a.netcup.net',
             port: 587,
             auth: {
                 user: 'enzo@enzo-volkmann.de',
