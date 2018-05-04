@@ -17,5 +17,10 @@ export const configuration: Configuration = {
                 pass: '' // Available as Node Env variable
             }
         }
+    },
+    prismic: {
+        url: 'https://enzo-its-me.cdn.prismic.io/api/v2',
+        accessToken: 'MC5XdXdnX1NzQUFDa0FJQUJW.cO-_vQnvv73vv73vv73vv73vv73vv73vv73vv73vv70iCe-_ve-_ve-_ve-_vTQmK--_ve-_vS3vv70cExvvv73vv73vv73vv70',
+        webhookSecret: 'wzleGUO0CFsRDiHl8TBdgCRJNmL4hDvv'
     }
 };
