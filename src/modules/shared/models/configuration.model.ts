@@ -25,4 +25,9 @@ export interface Configuration {
             };
         }
     };
+    prismic: {
+        url: string;
+        accessToken: string;
+        webhookSecret: string;
+    };
 }
