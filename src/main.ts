@@ -5,6 +5,8 @@ import { INestApplication } from '@nestjs/common/interfaces/nest-application.int
 import { AppModule } from './app.module';
 import { ExpressComponent as Express } from './modules/shared/components/express.component';
 import { ExpressSetting } from './modules/shared/models/express-setting.enum';
+import { Environments } from './modules/shared/environments';
+import { NodeEnv } from './modules/shared/models/node-env.enum';
 import * as express from 'express';
 
 const logger = new Logger('NestApplication');
@@ -21,6 +23,7 @@ async function startNestApplication() {
       .setTitle(expressInstance.get(ExpressSetting.NAME))
       .setDescription(`Environment: ${expressInstance.get(ExpressSetting.ENV)}\n\n` + expressInstance.get(ExpressSetting.DESCRIPTION))
       .setVersion(expressInstance.get(ExpressSetting.VERSION))
+      .setSchemes(Environments.isEnvironment(NodeEnv.LOCAL) ? 'http': 'https')
       .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('/api', app, document, {
