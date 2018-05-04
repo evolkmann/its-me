@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus, Logger, NotFoundException, Param } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, NotFoundException, Param } from '@nestjs/common';
 import { ApiImplicitParam, ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { PrismicService } from '../services/prismic.service';
 import { PrismicDocumentType } from '../models/prismic/prismic-document-types.enum';
@@ -9,8 +9,6 @@ import { Predicates } from '../components/predicates.component';
 @ApiUseTags('projects')
 @Controller('projects')
 export class ProjectsController {
-
-    private logger = new Logger(ProjectsController.name);
 
     constructor(private prismicService: PrismicService,
                 private projectPipe: ProjectPipe) { }
@@ -23,8 +21,6 @@ export class ProjectsController {
     @HttpCode(HttpStatus.OK)
     @Get()
     async getProjects(): Promise<Project[]> {
-        this.logger.log(`[GET] /projects`);
-
         const byDocumentType = Predicates.byDocumentType(PrismicDocumentType.PROJECT);
 
         const prismicResponse = await this.prismicService.fetchDataByPredicate(byDocumentType);
@@ -40,8 +36,6 @@ export class ProjectsController {
     @HttpCode(HttpStatus.OK)
     @Get('uids')
     async getProjectUids(): Promise<string[]> {
-        this.logger.log(`[GET] /projects/uids`);
-
         const byDocumentType = Predicates.byDocumentType(PrismicDocumentType.PROJECT);
 
         const prismicResponse = await this.prismicService.fetchDataByPredicate(byDocumentType);
@@ -64,8 +58,6 @@ export class ProjectsController {
     @HttpCode(HttpStatus.OK)
     @Get(':projectId')
     async getProject(@Param('projectId') projectId: string): Promise<Project> {
-        this.logger.log(`[GET] /projects/${projectId}`);
-
         const byProjectId = Predicates.byProjectId(projectId);
 
         const prismicResponse = await this.prismicService.fetchDataByPredicate(byProjectId);

@@ -1,6 +1,6 @@
 import {
     Controller, Post, Body, HttpStatus, HttpCode, BadRequestException,
-    InternalServerErrorException, Logger
+    InternalServerErrorException
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { NodemailerService } from '../services/nodemailer.service';
@@ -11,8 +11,6 @@ import { MessageRequestDto } from '../dto/message-request.dto';
 @ApiUseTags('messages')
 @Controller('messages')
 export class MessagesController {
-
-    private logger = new Logger(MessagesController.name);
 
     constructor(private nodemailerService: NodemailerService) { }
 
@@ -26,7 +24,6 @@ export class MessagesController {
     @HttpCode(HttpStatus.ACCEPTED)
     @Post()
     async sendMessage(@Body() requestDto: MessageRequestDto): Promise<void> {
-        this.logger.log(`[POST] /message`);
         if (!MessageRequestDto.isValid(requestDto)) {
             throw new BadRequestException('Request is invalid!');
         }

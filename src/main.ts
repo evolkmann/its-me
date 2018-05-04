@@ -8,6 +8,8 @@ import { ExpressSetting } from './modules/shared/models/express-setting.enum';
 import { Environments } from './modules/shared/environments';
 import { NodeEnv } from './modules/shared/models/node-env.enum';
 import * as express from 'express';
+import { SharedModule } from './modules/shared/shared.module';
+import { ApiInterceptor } from './modules/shared/interceptors/api.interceptor';
 
 const logger = new Logger('NestApplication');
 let expressInstance: express.Application;
@@ -17,6 +19,9 @@ let expressInstance: express.Application;
  */
 async function startNestApplication() {
   const app: INestApplication = await NestFactory.create(AppModule, expressInstance, {});
+
+  const apiInterceptor = app.select(SharedModule).get(ApiInterceptor);
+  app.useGlobalInterceptors(apiInterceptor);
 
   // Configure Swagger for API Documentation
   const swaggerConfig = new DocumentBuilder()

@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus, Logger } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { ResumeService } from '../services/resume.service';
 import {
@@ -10,8 +10,6 @@ import {
 @Controller('resume')
 export class ResumeController {
 
-    private logger = new Logger(ResumeController.name);
-
     constructor() { }
 
     @ApiOperation({
@@ -22,7 +20,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get()
     async getResume(): Promise<Resume> {
-        this.logger.log(`[GET] /resume`);
         return Promise.resolve(ResumeService.getResume());
     }
 
@@ -34,7 +31,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('basics')
     async getBasics(): Promise<Basics> {
-        this.logger.log(`[GET] /resume/basics`);
         return Promise.resolve(ResumeService.getResume().basics);
     }
 
@@ -46,7 +42,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('basics/profiles')
     async getBasicsProfiles(): Promise<Profile[]> {
-        this.logger.log(`[GET] /resume/profiles`);
         return Promise.resolve(ResumeService.getResume().basics.profiles);
     }
 
@@ -58,7 +53,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('work')
     async getWork(): Promise<Work[]> {
-        this.logger.log(`[GET] /resume/work`);
         return Promise.resolve(ResumeService.getResume().work);
     }
 
@@ -70,7 +64,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('volunteer')
     async getVolunteer(): Promise<Volunteer[]> {
-        this.logger.log(`[GET] /resume/volunteer`);
         return Promise.resolve(ResumeService.getResume().volunteer);
     }
 
@@ -82,7 +75,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('education')
     async getEducation(): Promise<Education[]> {
-        this.logger.log(`[GET] /resume/education`);
         return Promise.resolve(ResumeService.getResume().education);
     }
 
@@ -94,7 +86,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('awards')
     async getAwards(): Promise<Award[]> {
-        this.logger.log(`[GET] /resume/awards`);
         return Promise.resolve(ResumeService.getResume().awards);
     }
 
@@ -106,7 +97,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('publications')
     async getPublications(): Promise<Publication[]> {
-        this.logger.log(`[GET] /resume/publications`);
         return Promise.resolve(ResumeService.getResume().publications);
     }
 
@@ -118,7 +108,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('skills')
     async getSkills(): Promise<Skill[]> {
-        this.logger.log(`[GET] /resume/skills`);
         return Promise.resolve(ResumeService.getResume().skills);
     }
 
@@ -130,7 +119,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('languages')
     async getLanguages(): Promise<Language[]> {
-        this.logger.log(`[GET] /resume/languages`);
         return Promise.resolve(ResumeService.getResume().languages);
     }
 
@@ -142,7 +130,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('interests')
     async getInterests(): Promise<Interest[]> {
-        this.logger.log(`[GET] /resume/interests`);
         return Promise.resolve(ResumeService.getResume().interests);
     }
 
@@ -154,7 +141,6 @@ export class ResumeController {
     @HttpCode(HttpStatus.OK)
     @Get('references')
     async getReferences(): Promise<Reference[]> {
-        this.logger.log(`[GET] /resume/references`);
         return Promise.resolve(ResumeService.getResume().references);
     }
 
