@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { PrismicService } from './services/prismic.service';
 import { ProjectsController } from './controllers/projects.controller';
 import { ProjectPipe } from './pipes/project.pipe';
+import { Predicates } from './components/predicates.component';
 
 @Module({
     imports: [],
@@ -10,7 +11,8 @@ import { ProjectPipe } from './pipes/project.pipe';
     ],
     components: [
         PrismicService,
-        ProjectPipe
+        ProjectPipe,
+        Predicates
     ],
 })
 export class ProjectsModule {}

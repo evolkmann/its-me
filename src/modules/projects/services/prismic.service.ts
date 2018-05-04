@@ -1,7 +1,7 @@
-import { Component } from '@nestjs/common';
+import { Component, Logger } from '@nestjs/common';
 import { PrismicDocument } from '../models/prismic/prismic-document.type';
 import { PrismicResponse } from '../models/prismic/prismic-response.model';
-import { PrismicDocumentType } from '../models/prismic/prismic-document-types.enum';
+import { PrismicPredicate } from '../models/prismic/prismic-predicate.model';
 import { Environments } from '../../shared/environments';
 import * as request from 'request-promise-native';
 import * as urlJoin from 'url-join';
@@ -10,13 +10,10 @@ interface PrismicCache {
     [key: string]: any;
 }
 
-export interface Predicate {
-    fragment: string;
-    value: string;
-}
-
 @Component()
 export class PrismicService {
+
+    private logger = new Logger(PrismicService.name);
 
     private _masterRef: string;
 
@@ -40,33 +37,20 @@ export class PrismicService {
     constructor() { }
 
     /**
-     * Load Content filtered by document type
-     *
-     * @param {PrismicDocumentType} documentType The documentType to filter by
-     *
-     * @returns {Promise<PrismicResponse<PrismicDocument>>} a promise containing the content
-     */
-    public async getContentByDocumentType(documentType: PrismicDocumentType): Promise<PrismicResponse<PrismicDocument>> {
-        return this.fetchDataByPredicate({
-            fragment: 'document.type',
-            value:  documentType as string
-        });
-    }
-
-    /**
      * Performs an API Call to Prismic and fetches results filtered by fragment and value
      *
-     * @param {Predicate[]} predicates Any number of filtering predicates
+     * @param {PrismicPredicate[]} predicates Any number of filtering predicates
      *
      * @returns {Promise<PrismicResponse<PrismicDocument>>} The Response object
      */
-    async fetchDataByPredicate(...predicates: Predicate[]): Promise<PrismicResponse<PrismicDocument>> {
+    async fetchDataByPredicate(...predicates: PrismicPredicate[]): Promise<PrismicResponse<PrismicDocument>> {
         // JSON-safe and unique key for accessing the cached data:
         // Only alphanumerical, no whitespace
-        const fragmentValueKey = predicates.map(p => `${p.fragment}${p.value}`).join().replace(/\W+/g, '');
+        const fragmentValueKey = predicates.map(p => `${p.fragment}${p.value}`).join('').replace(/\W+/g, '');
 
         // Try to return a cached value
         if (this.cache[fragmentValueKey]) {
+            this.logger.log(`Loading from Cache: ${fragmentValueKey}`);
             return Promise.resolve(this.cache[fragmentValueKey]);
         }
 
@@ -108,6 +92,8 @@ export class PrismicService {
         const api = await request(requestOptions);
 
         this.masterRef = api['refs'][0]['ref'];
+        this.logger.log(`New masterRef is ${this._masterRef}`);
+
         return Promise.resolve();
     }
 }
